@@ -1,10 +1,13 @@
-import logging
-from telegram import Update, MenuButton, MenuButtonCommands
+from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
 import os
 from slack_sdk import WebClient
 import time
 import datetime
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 
