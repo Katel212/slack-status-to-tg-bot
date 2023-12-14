@@ -21,10 +21,14 @@ async def get_statuses(update: Update, context: ContextTypes.DEFAULT_TYPE):
     users_in_group = client.usergroups_users_list(usergroup='S046Z9NF49H')['users']
     for user in users_in_group:
         profile = client.users_profile_get(user=user)['profile']
-        if profile['status_expiration'] != 0:
-            status_duration = datetime.datetime.now()+datetime.timedelta(seconds=int(profile['status_expiration'])-time.time())
+        print(profile)
+        if profile['status_expiration'] != 0 and profile['status_text'] != '':
+            status_duration = datetime.datetime.now() + datetime.timedelta(
+                seconds=int(profile['status_expiration']) - time.time())
             status = profile['status_text'] + ', до ' + status_duration.strftime('%H:%M')
             message += profile['real_name'] + ' - ' + status + '\n'
+    if message == '':
+        message += 'На обеде никого нет'
     await context.bot.send_message(chat_id=update.effective_chat.id, text=message)
 
 
